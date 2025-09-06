@@ -1,4 +1,11 @@
-﻿using Fudamental_Prj404.Models;
+﻿/*
+*This was project for .Net fundamental course in sematec.
+*In this project, I created a console application that simulates a user sign-up and login system with some mini games.
+*Special thanks to my teacher, Mr. Parham Darivsh for his guidance and support throughout the course.
+*Mehdi Esmaili - September 2025/
+*/
+
+using Fudamental_Prj404.Models;
 
 namespace Fudamental_Prj404
 {
@@ -9,7 +16,7 @@ namespace Fudamental_Prj404
             Console.WriteLine("Welcome to the MLine system");
         }
 
-        public static void InputsData (User user)
+        public static void InputsData(User user)
         {
             do // Inputs first name
             {
@@ -100,6 +107,54 @@ namespace Fudamental_Prj404
             } while (true);
 
         }
+        public static void SetUsernameAndPassword(User user)
+        {
+            Console.WriteLine("Now, you have to set your username and password");
+            do // Inputs username
+            {
+                Console.Write("Please enter your username : ");
+                string UserName = Console.ReadLine();
+                if (string.IsNullOrEmpty(UserName) || string.IsNullOrWhiteSpace(UserName))
+                    Console.WriteLine("Username cannot be empty");
+                else if (UserName.Length < 5)
+                    Console.WriteLine("Username must be at least 5 characters");
+                else
+                {
+                    user.UserName = UserName;
+                    break;
+                }
+            } while (true);
+            do // Inputs password
+            {
+                Console.Write("Please enter your password : ");
+                string Password = Console.ReadLine();
+                if (string.IsNullOrEmpty(Password) || string.IsNullOrWhiteSpace(Password))
+                    Console.WriteLine("Password cannot be empty");
+                else if (Password.Length < 8)
+                    Console.WriteLine("Password must be at least 8 characters");
+                else if (!Password.Any(char.IsUpper))
+                    Console.WriteLine("Password must contain at least one uppercase letter");
+                else if (!Password.Any(char.IsLower))
+                    Console.WriteLine("Password must contain at least one lowercase letter");
+                else if (!Password.Any(char.IsDigit))
+                    Console.WriteLine("Password must contain at least one digit");
+                else
+                {
+                    user.Password = Password;
+                    break;
+                }
+            } while (true);
+        }
+        public static void ShowUserInfo(User user)
+        {
+            Console.WriteLine("Your information:");
+            Console.WriteLine($"Full Name: {user.FullName}");
+            Console.WriteLine($"Email: {user.Email}");
+            Console.WriteLine($"Phone Number: {user.PhoneNumber}");
+            Console.WriteLine($"National Code: {user.NationalCode}");
+            Console.WriteLine($"Birth Date: {user.BirthDate.ToShortDateString()}");
+            Console.WriteLine($"Age: {user.Age}");
+        }
         static void Main(string[] args)
         {
             WelcomeMsj();
@@ -109,20 +164,14 @@ namespace Fudamental_Prj404
             Console.WriteLine("<--------------------------------------------------->");
             User user = new User();
 
-            InputsData(user); // Input all user data
-
-            // Double check the inputs with user
+            InputsData(user);                // Input all user data
             Console.WriteLine("<--------------------------------------------------->");
-            Console.WriteLine("Accepted, Let's double check the result");
+            ShowUserInfo(user);              // Show user information
             Console.WriteLine("<--------------------------------------------------->");
-            Console.WriteLine($"First name : {user.FirstName}");
-            Console.WriteLine($"Last name : {user.LastName}");
-            Console.WriteLine($"National code : {user.NationalCode}");
-            Console.WriteLine($"Email : {user.Email}");
-            Console.WriteLine($"Phone number : {user.PhoneNumber}");
-            Console.WriteLine($"Birth date : {user.BirthDate.ToShortDateString()}, You are {user.Age} years old");
+            SetUsernameAndPassword(user);    // Setting Username and Password
             Console.WriteLine("<--------------------------------------------------->");
-
+            Console.WriteLine("You have successfully signed up!");
+            Console.WriteLine("Now, you can log in with your username and password");
         }
     }
 }

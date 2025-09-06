@@ -25,6 +25,7 @@ namespace Fudamental_Prj404.Models
             }
         }
         public string Email { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
         public string FullName => $"{FirstName} {LastName}";
         //public User(string firstName, string lastName, string email, string password)
