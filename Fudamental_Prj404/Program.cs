@@ -1,11 +1,13 @@
 ﻿/*
 *This was project for .Net fundamental course in sematec.
 *In this project, I created a console application that simulates a user sign-up and login system with some mini games.
-*Special thanks to my teacher, Mr. Parham Darivsh for his guidance and support throughout the course.
-*Mehdi Esmaili - September 2025/
+*Special thanks to my teacher, Mr. Parham Darivishi for his guidance and support throughout the course.
+*Mehdi Esmaili - September 2025
 */
 
 using Fudamental_Prj404.Models;
+using System;
+using System.Threading;
 
 namespace Fudamental_Prj404
 {
@@ -13,7 +15,19 @@ namespace Fudamental_Prj404
     {
         public static void WelcomeMsj()
         {
-            Console.WriteLine("Welcome to the MLine system");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("███╗   ███╗ ██╗      ██╗ ███╗   ██╗ ███████╗");
+            Console.WriteLine("████╗ ████║ ██║      ██║ ████╗  ██║ ██╔════╝");
+            Console.WriteLine("██╔████╔██║ ██║      ██║ ██╔██╗ ██║ █████╗  ");
+            Console.WriteLine("██║╚██╔╝██║ ██║      ██║ ██║╚██╗██║ ██╔══╝  ");
+            Console.WriteLine("██║ ╚═╝ ██║ ███████╗ ██║ ██║ ╚████║ ███████╗");
+            Console.WriteLine("╚═╝     ╚═╝ ╚══════╝ ╚═╝ ╚═╝  ╚═══╝ ╚══════╝");
+            Console.WriteLine("╔══════════════════════════════════════════╗");
+            Console.WriteLine("║        Welcome to the MLine System       ║");
+            Console.WriteLine("╚══════════════════════════════════════════╝");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public static void InputsData(User user)
@@ -155,23 +169,141 @@ namespace Fudamental_Prj404
             Console.WriteLine($"Birth Date: {user.BirthDate.ToShortDateString()}");
             Console.WriteLine($"Age: {user.Age}");
         }
+        public static void GuessNumberGame()
+        {
+            /*In this game one number will be choosed randomly from 1 to 100 and user must guess
+             * and find the number with help (higher or lower) and user has 10 chance to guess. */
+
+            Console.WriteLine("<<< Welcome to Guessing The Number game >>>");
+            Console.WriteLine("In this game you have to guess the random number from 1 to 100");
+            Console.WriteLine("You only have 10 chance, Let's go");
+            Console.WriteLine("<--------------------------------------------------->");
+
+            Random rnd = new Random();
+            int RandomNumber = rnd.Next(1, 101);
+
+            int UserGuess = 0;
+            for (int i = 1; i <= 10; i++)
+            {
+                do
+                {
+                    Console.Write($"Enter your {i} guess : ");
+                    UserGuess = int.Parse(Console.ReadLine());
+
+                    if (UserGuess > 100 || UserGuess < 1)
+                        Console.WriteLine("The number must be between 1 to 100");
+                    else
+                        break;
+                } while (true);
+
+                if (UserGuess > RandomNumber)
+                    Console.WriteLine("Lower");
+                else if (UserGuess < RandomNumber)
+                    Console.WriteLine("Higher");
+                else
+                {
+                    Console.WriteLine($"YOU WIN, The number was {RandomNumber}!");
+                    return;
+                }
+            }
+            Console.WriteLine($"You lost, The number was {RandomNumber} :(");
+        }
+
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             WelcomeMsj();
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("<<< You have to sign up in advance >>>");
             Console.WriteLine("Please fill in the following information to sign up:");
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("<--------------------------------------------------->");
+            Console.ResetColor();
             User user = new User();
 
-            InputsData(user);                // Input all user data
+            InputsData(user);                //      Input all user data
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("<--------------------------------------------------->");
-            ShowUserInfo(user);              // Show user information
+            Console.ResetColor();
+            ShowUserInfo(user);              //     Show user information
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("<--------------------------------------------------->");
+            Console.ResetColor();
             SetUsernameAndPassword(user);    // Setting Username and Password
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("<--------------------------------------------------->");
+            Console.ResetColor();
+            Console.WriteLine("Just a seconds ");
+
+            char[] spinner = { '/', '|', '\\', '-' };
+            Console.Write("Loading ");
+
+            for (int i = 0; i < 30; i++) // Adjust loop count for duration
+            {
+                Console.Write(spinner[i % spinner.Length]);
+                Thread.Sleep(200); // Delay in milliseconds
+                Console.Write("\b"); // Move cursor back to overwrite
+            }
+
+            Console.WriteLine("Done!");
+
             Console.WriteLine("You have successfully signed up!");
             Console.WriteLine("Now, you can log in with your username and password");
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.WriteLine("███╗   ███╗ ██╗      ██╗ ███╗   ██╗ ███████╗");
+            Console.WriteLine("████╗ ████║ ██║      ██║ ████╗  ██║ ██╔════╝");
+            Console.WriteLine("██╔████╔██║ ██║      ██║ ██╔██╗ ██║ █████╗  ");
+            Console.WriteLine("██║╚██╔╝██║ ██║      ██║ ██║╚██╗██║ ██╔══╝  ");
+            Console.WriteLine("██║ ╚═╝ ██║ ███████╗ ██║ ██║ ╚████║ ███████╗");
+            Console.WriteLine("╚═╝     ╚═╝ ╚══════╝ ╚═╝ ╚═╝  ╚═══╝ ╚══════╝");
+
+            Console.WriteLine("Singing in");
+
+            do // login username
+            {
+                Console.Write("Enter your Username : ");
+                string InputUserName = Console.ReadLine();
+                if (string.IsNullOrEmpty(InputUserName))
+                    Console.WriteLine("Username cannot be null or empty");
+                if (InputUserName != user.UserName)
+                    Console.WriteLine("No username found...");
+                else
+                    break;
+            } while (true);
+
+            Console.WriteLine("User name Founded!");
+
+            do // login password
+            {
+                Console.Write("Enter yout Password : ");
+                string InputPassword = Console.ReadLine();
+                if (string.IsNullOrEmpty(InputPassword))
+                    Console.WriteLine("Password cannot be null or empty");
+                if (InputPassword != user.Password)
+                    Console.WriteLine("Wrong Password");
+                else
+                    break;
+            }while(true);
+
+            Console.WriteLine($"Hello {user.FirstName}!");
+            Console.WriteLine("Loading ");
+
+            Console.Write("Loading ");
+
+            for (int i = 0; i < 30; i++) // Adjust loop count for duration
+            {
+                Console.Write(spinner[i % spinner.Length]);
+                Thread.Sleep(200); // Delay in milliseconds
+                Console.Write("\b"); // Move cursor back to overwrite
+            }
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            GuessNumberGame();
         }
     }
 }
